@@ -1,0 +1,179 @@
+Experiments
+
+CPU Capacity
+=====================
+
+for cpu in /sys/devices/system/cpu/cpu*/cpu_capacity; do
+    echo "$cpu : $(cat $cpu)"
+done
+
+O/P
+
+/sys/devices/system/cpu/cpu0/cpu_capacity : 1024
+/sys/devices/system/cpu/cpu1/cpu_capacity : 1024
+/sys/devices/system/cpu/cpu10/cpu_capacity : 984
+/sys/devices/system/cpu/cpu11/cpu_capacity : 984
+/sys/devices/system/cpu/cpu2/cpu_capacity : 279
+/sys/devices/system/cpu/cpu3/cpu_capacity : 279
+/sys/devices/system/cpu/cpu4/cpu_capacity : 279
+/sys/devices/system/cpu/cpu5/cpu_capacity : 279
+/sys/devices/system/cpu/cpu6/cpu_capacity : 905
+/sys/devices/system/cpu/cpu7/cpu_capacity : 905
+/sys/devices/system/cpu/cpu8/cpu_capacity : 866
+/sys/devices/system/cpu/cpu9/cpu_capacity : 866
+
+Once liner version 
+--------------------
+
+for f in /sys/devices/system/cpu/cpu[0-9]*/cpu_capacity; do
+    cpu=$(echo "$f" | sed -E 's|.*/cpu([0-9]+)/cpu_capacity|\1|')
+    echo "cpu$cpu $(cat "$f")"
+done | sort -k2 -n
+
+O/P
+
+cpu2 279
+cpu3 279
+cpu4 279
+cpu5 279
+cpu8 866
+cpu9 866
+cpu6 905
+cpu7 905
+cpu10 984
+cpu11 984
+cpu0 1024
+cpu1 1024
+
+
+
+Conclusion 
+=================
+export LITTLE_CPUS=2,3,4,5
+export MEDIUM_CPUS=6,7,8,9
+export BIG_CPUS=0,1,10,11
+
+export TIER0_CPUS=2,3,4,5
+export TIER1_CPUS=8,9
+export TIER2_CPUS=6,7
+export TIER3_CPUS=10,11
+export TIER4_CPUS=0,1
+
+Scheduler Policy
+=========================
+for p in /sys/devices/system/cpu/cpufreq/policy*;
+do
+echo "== $p =="
+cat $p/scaling_governor
+cat $p/scaling_available_governors
+done
+
+O/P 
+
+== /sys/devices/system/cpu/cpufreq/policy0 ==
+schedutil
+conservative ondemand userspace powersave performance schedutil 
+== /sys/devices/system/cpu/cpufreq/policy10 ==
+schedutil
+conservative ondemand userspace powersave performance schedutil 
+== /sys/devices/system/cpu/cpufreq/policy2 ==
+schedutil
+conservative ondemand userspace powersave performance schedutil 
+== /sys/devices/system/cpu/cpufreq/policy6 ==
+schedutil
+conservative ondemand userspace powersave performance schedutil 
+== /sys/devices/system/cpu/cpufreq/policy8 ==
+schedutil
+conservative ondemand userspace powersave performance schedutil 
+
+
+
+Verify which CPU Belongs to which policy 
+for p in /sys/devices/system/cpu/cpufreq/policy*; do
+echo $p
+cat $p/related_cpus
+done
+/sys/devices/system/cpu/cpufreq/policy0
+0 1
+/sys/devices/system/cpu/cpufreq/policy10
+10 11
+/sys/devices/system/cpu/cpufreq/policy2
+2 3 4 5
+/sys/devices/system/cpu/cpufreq/policy6
+6 7
+/sys/devices/system/cpu/cpufreq/policy8
+8 9
+
+
+Change in CPU frequency based on load 
+===========================================
+One shell
+watch -n1 "for p in /sys/devices/system/cpu/cpufreq/policy*; do echo \$p; cat \$p/scaling_cur_freq; done"
+Other shell
+stress-ng --cpu 1
+
+
+
+
+
+Observe Current frequency
+==============================
+watch -n1 'for p in /sys/devices/system/cpu/cpufreq/policy*; do
+echo $p
+cat $p/scaling_cur_freq
+done'
+
+
+
+Tool Installation 
+##############################
+
+sudo apt install linux-tools-generic
+sudo apt install -y trace-cmd stress-ng util-linux procps \
+rt-tests gnuplot jq python3-pip git
+
+sudo apt update and sudo apt install build-essential -y
+sudo apt install curl 
+
+
+Install Aperf
+===================
+
+arch=$(uname -m); curl -sL $(curl -s https://api.github.com/repos/aws/aperf/releases/latest | grep "browser_download_url.*$arch.*\.tar\.gz" | cut -d'"' -f4) | tar -xz && echo "✓ aperf available at ./aperf-<version>-$arch/aperf"
+
+# 2. Set kernel permissions (non-root users)
+sudo sysctl -w kernel.perf_event_paranoid=-1
+sudo sysctl -w kernel.kptr_restrict=0
+ulimit -n 65535
+
+# 3. Record performance data every 1 second for 60 seconds
+./aperf record -r my_run -i 1 -p 60
+
+# 4. Generate report, can be run another machine
+./aperf report -r my_run -n my_report
+
+# 5. Open my_report/index.html in your browser
+
+
+Install Rust
+==================
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+. "$HOME/.cargo/env"
+
+Install rsched
+==============
+
+sudo apt install -y \
+  pkg-config \
+  libelf-dev \
+  zlib1g-dev \
+  libbpf-dev \
+  clang \
+  llvm \
+  libbpf-dev \
+  linux-tools-common \
+  build-essential
+
+git clone https://github.com/masoncl/rsched.git
+cd rsched 
+cargo build --release
