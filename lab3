@@ -1,0 +1,11 @@
+CMD
+cat /sys/kernel/tracing/available_events | egrep 'sched_(switch|wakeup|wakeup_new|migrate_task|load_avg_task|util_est_task|pelt_|overutilized)|cpu_frequency'
+
+O/P
+sched:sched_migrate_task
+sched:sched_switch
+sched:sched_wakeup_new
+sched:sched_wakeup
+power:cpu_frequency_limits
+power:cpu_frequency
+

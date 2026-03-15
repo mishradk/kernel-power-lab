@@ -1,0 +1,3 @@
+processed_systeminfo_data = {"data_name":"systeminfo","data_format":"key_value","runs":{"smoke_run":{"key_value_groups":{"":{"key_values":{"Local Hostname":"N/A","System Name":"Ubuntu","OS Version":"24.04","Hostname":"mishradk-orion-o6","Instance ID":"N/A","Kernel Version":"7.0.0-rc3","CPUs":"12","AMI ID":"N/A","Region":"N/A","Instance Type":"N/A"}}}}}}
+
+systeminfo_findings = {"per_run_findings":{}}

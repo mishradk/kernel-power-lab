@@ -1,0 +1,28 @@
+[2026-03-15T18:16:58Z INFO  aperf::record] Starting Data collection...
+[2026-03-15T18:16:58Z INFO  aperf::record] Preparing data collectors...
+[2026-03-15T18:16:58Z DEBUG aperf::record] Collecting static data...
+[2026-03-15T18:16:59Z WARN  aperf::data::systeminfo] Unable to get instance metadata: failed to load IMDS session token
+[2026-03-15T18:16:59Z INFO  aperf::record] Collecting data...
+[2026-03-15T18:17:00Z DEBUG aperf] Time elapsed: 1.000080596s
+[2026-03-15T18:17:00Z DEBUG aperf] Collection time: 7.891957ms
+[2026-03-15T18:17:01Z DEBUG aperf] Time elapsed: 2.000075143s
+[2026-03-15T18:17:01Z DEBUG aperf] Collection time: 7.424344ms
+[2026-03-15T18:17:02Z DEBUG aperf] Time elapsed: 3.000070189s
+[2026-03-15T18:17:02Z DEBUG aperf] Collection time: 10.497386ms
+[2026-03-15T18:17:03Z DEBUG aperf] Time elapsed: 4.000071537s
+[2026-03-15T18:17:03Z DEBUG aperf] Collection time: 10.385872ms
+[2026-03-15T18:17:04Z DEBUG aperf] Time elapsed: 5.000073216s
+[2026-03-15T18:17:04Z DEBUG aperf] Collection time: 10.542964ms
+[2026-03-15T18:17:05Z DEBUG aperf] Time elapsed: 6.000069576s
+[2026-03-15T18:17:05Z DEBUG aperf] Collection time: 9.659408ms
+[2026-03-15T18:17:06Z DEBUG aperf] Time elapsed: 7.000073566s
+[2026-03-15T18:17:06Z DEBUG aperf] Collection time: 10.395141ms
+[2026-03-15T18:17:07Z DEBUG aperf] Time elapsed: 8.000078588s
+[2026-03-15T18:17:07Z DEBUG aperf] Collection time: 10.828381ms
+[2026-03-15T18:17:08Z DEBUG aperf] Time elapsed: 9.00007614s
+[2026-03-15T18:17:08Z DEBUG aperf] Collection time: 14.919746ms
+[2026-03-15T18:17:09Z DEBUG aperf] Time elapsed: 10.000066953s
+[2026-03-15T18:17:09Z DEBUG aperf] Collection time: 10.424089ms
+[2026-03-15T18:17:10Z DEBUG aperf] Time elapsed: 11.000072618s
+[2026-03-15T18:17:10Z DEBUG aperf] Collection time: 10.375062ms
+[2026-03-15T18:17:10Z INFO  aperf::record] Data collection complete.

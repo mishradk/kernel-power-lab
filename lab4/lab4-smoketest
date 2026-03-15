@@ -1,0 +1,4 @@
+./aperf record -r smoke_run -i 1 -p 10
+./aperf report -r smoke_run -n smoke_report
+ls smoke_report
+
